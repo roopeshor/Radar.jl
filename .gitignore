@@ -1,0 +1,8 @@
+Data
+.vscode
+noupload
+test*.m
+**/*.csv
+plots
+__pycache__
+exp*

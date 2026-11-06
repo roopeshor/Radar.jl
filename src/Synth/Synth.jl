@@ -12,7 +12,8 @@ using ..Utils:
   compute_height_bins,
   compute_velocity_bins,
   compute_max_freq,
-  get_original_spectrum
+  get_original_spectrum,
+	gradient
 using ..RadarIO: write_raw_file
 
 @inline _round_away(x::Real) = copysign(floor(abs(x) + 0.5), x)
@@ -32,17 +33,10 @@ export compute_spectrum_broadening,
   tropical_easterly_jet
 
 include("compute_spectrum_broadening.jl")
-include("convective_plumes.jl")
+include("wind_processes.jl")
 include("create_synthetic_beamheader.jl")
-include("gravity_waves.jl")
-include("kolmogorov_turbulence.jl")
-include("orographic_updraft.jl")
-include("somali_jet.jl")
-include("stratospheric_qbo.jl")
-include("synoptic_bg.jl")
-include("tropical_easterly_jet.jl")
 include("generate_wind_profile.jl")
 include("synthesize_iq_data.jl")
 include("create_synthetic_observation.jl")
 
-end # module Synth
+end

@@ -164,3 +164,16 @@ function fft_n(x::AbstractArray, n::Integer, dim::Integer)
 
   return fft(padded, dim)
 end
+
+
+function gradient(x::AbstractVector, h::Real)
+  n = length(x)
+  n < 2 && return zeros(Float64, n)
+  g = similar(Float64.(x))
+  g[1] = (x[2]-x[1])/h
+  g[end] = (x[end]-x[end - 1])/h
+  for i = 2:(n - 1)
+    g[i] = (x[i + 1]-x[i - 1])/(2h)
+  end
+  return g
+end

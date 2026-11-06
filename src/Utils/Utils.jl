@@ -22,7 +22,8 @@ export add_extra_RD_params!,
   local_peaks,
   rescale_linear,
   safe_corrcoef,
-  fft_n
+  fft_n,
+	gradient
 
 include("helpers.jl")
 include("add_extra_RD_params.jl")

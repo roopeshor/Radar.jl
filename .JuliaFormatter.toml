@@ -1,0 +1,10 @@
+indent = 2
+margin = 80
+align_assignment = true
+align_struct_field = true
+align_pair_arrow = true
+align_conditional = true
+whitespace_ops_in_indices = true
+align_matrix = true
+whitespace_typedefs = true
+normalize_line_endings = "unix"

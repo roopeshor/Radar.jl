@@ -21,4 +21,4 @@ include("get_candidate_peaks.jl")
 include("trace_profile.jl")
 include("estimate_params.jl")
 
-end # module IME
+end

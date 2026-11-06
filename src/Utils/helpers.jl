@@ -22,16 +22,45 @@ end
 function moving_mean(x::AbstractVector, width::Integer)
   width <= 1 && return copy(x)
   n = length(x)
-  y = similar(float.(x))
+  y = similar(x, float(eltype(x)))
+
   left = fld(width - 1, 2)
   right = width - left - 1
-  for i = 1:n
-    lo = max(1, i-left)
-    hi = min(n, i+right)
-    y[i] = mean(@view x[lo:hi])
+
+  # 1. Initialize the window for the very first element (i = 1)
+  lo = 1
+  hi = min(n, 1 + right)
+
+  current_sum = 0.0
+  @inbounds for j = lo:hi
+    current_sum += x[j]
   end
+  count = hi - lo + 1
+  y[1] = current_sum / count
+
+  # 2. Slide the window for the rest of the array
+  @inbounds for i = 2:n
+    old_lo = max(1, i - 1 - left)
+    new_lo = max(1, i - left)
+
+    old_hi = min(n, i - 1 + right)
+    new_hi = min(n, i + right)
+
+    if new_lo > old_lo
+      current_sum -= x[old_lo]
+      count -= 1
+    end
+    if new_hi > old_hi
+      current_sum += x[new_hi]
+      count += 1
+    end
+
+    y[i] = current_sum / count
+  end
+
   return y
 end
+
 function moving_mean(x::AbstractMatrix, width::Integer; dims::Integer = 2)
   dims == 2 || throw(ArgumentError("moving_mean currently supports dims=2"))
   y = similar(float.(x))
